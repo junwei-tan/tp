@@ -27,13 +27,16 @@ public class EditTaskCommand extends Command {
 
     public static final String COMMAND_WORD = "editT";
 
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD + " 1 "
+            + PREFIX_TASK_DESCRIPTION + "go sleep";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the task identified "
             + "by the index number used in the displayed task list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_TASK_DESCRIPTION + "DESCRIPTION] "
-            + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_TASK_DESCRIPTION + "go sleep";
+            + "Example: "
+            + MESSAGE_EXAMPLE;
 
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Task: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";

@@ -45,9 +45,12 @@ task coverage(type: JacocoReport) {
 }
 
 dependencies {
+    String controlsfxVersion = '11.1.2'
     String jUnitVersion = '5.4.0'
     String javaFxVersion = '11'
     String mockitoVersion = '4.0.0'
+
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: controlsfxVersion;
 
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac'

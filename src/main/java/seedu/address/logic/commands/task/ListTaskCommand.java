@@ -14,8 +14,9 @@ public class ListTaskCommand extends Command {
 
     public static final String COMMAND_WORD = "listT";
 
-    public static final String MESSAGE_SUCCESS = "Listed all tasks";
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD;
 
+    public static final String MESSAGE_SUCCESS = "Listed all tasks";
 
     @Override
     public CommandResult execute(Model model) {

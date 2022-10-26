@@ -1,12 +1,17 @@
 package seedu.address.ui;
 
+import org.controlsfx.control.textfield.TextFields;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
+import seedu.address.commons.core.Commands;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+
+import java.util.List;
 
 /**
  * The UI component that is responsible for receiving user command inputs.
@@ -29,6 +34,7 @@ public class CommandBox extends UiPart<Region> {
         this.commandExecutor = commandExecutor;
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+        TextFields.bindAutoCompletion(commandTextField, getSuggestions());
     }
 
     /**
@@ -67,6 +73,13 @@ public class CommandBox extends UiPart<Region> {
         }
 
         styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Returns list of all possible commands.
+     */
+    private List<String> getSuggestions() {
+        return Commands.getAllCommands();
     }
 
     /**

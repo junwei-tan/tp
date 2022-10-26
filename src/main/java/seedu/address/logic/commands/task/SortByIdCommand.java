@@ -13,8 +13,9 @@ public class SortByIdCommand extends Command {
 
     public static final String COMMAND_WORD = "sortI";
 
-    public static final String MESSAGE_SUCCESS = "Sorted all tasks by id";
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD;
 
+    public static final String MESSAGE_SUCCESS = "Sorted all tasks by id";
 
     @Override
     public CommandResult execute(Model model) {

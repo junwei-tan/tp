@@ -14,10 +14,13 @@ public class TaskProgressCommand extends Command {
 
     public static final String COMMAND_WORD = "progressT";
 
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD + " grocery shopping friends";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows percentage completion progress for tasks with any of the specified tags.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " grocery shopping friends";
+            + "Example: "
+            + MESSAGE_EXAMPLE;
 
     public static final String MESSAGE_SHOW_PROGRESS_SUCCESS = "Task Completion: %1$.1f %%";
 

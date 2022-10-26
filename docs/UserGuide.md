@@ -15,14 +15,14 @@ YellowBook is optimised for use via a Command Line Interface (CLI).
 
 1. Ensure you have Java `11` or above installed in your Computer.
 
-1. Download the latest `yellowbook.jar` from [here]().
+2. Download the latest `yellowbook.jar` from [here]().
 
-1. Copy the file to the folder you want to use as the _home folder_ for your YellowBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your YellowBook.
 
-1. Double-click the file to start the app. The GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+4. Double-click the file to start the app. The GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * **`listC`** : Lists all contacts.
@@ -31,7 +31,7 @@ YellowBook is optimised for use via a Command Line Interface (CLI).
 
    * **`deleteC`**`3` : Deletes the 3rd contact shown in the current contact list.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -147,17 +147,21 @@ Filters contacts whose label(s) contain any of the given keywords.
 
 Format: `filterC KEYWORD [MORE_KEYWORDS]`
 
+<<<<<<< Updated upstream
 * The filter is case-insensitive, e.g. `cs2103t` will match `CS2103T`.
 
 * The order of the keywords does not matter, e.e. `software cs2103t` will match
   `CS2103T Software Engineering`.
+=======
+* The filer is case-sensitive, e.g. `cs2103t` will not match `CS2103T`.
+>>>>>>> Stashed changes
 
 * Only the contact's label is filtered.
 
 * Only full words will be matched. e.g. `cs2103t` will not match `cs2103`.
 
-* Labels matching at least one keyword will be returned. e.g. `cs2103t cs2101` will match
-  `CS2103T Software Engineering` and `CS2101 Effective Communication for Computing Professionals`.
+* Labels matching at least one keyword will be returned. e.g. `CS2103T CS2101` will match
+  `CS2103T` and `CS2101`.
 
 Example:
 
@@ -243,17 +247,14 @@ Filters tasks whose label(s) contain any of the given keywords.
 
 Format: `filterT KEYWORD [MORE_KEYWORDS]`
 
-* The filter is case-insensitive, e.g. `cs2103t` will match `CS2103T`.
-
-* The order of the keywords does not matter, e.e. `software cs2103t` will match
-  `CS2103T Software Engineering`.
+* The filter is case-sensitive, e.g. `cs2103t` will not match `CS2103T`.
 
 * Only the tasks's label is filtered.
 
 * Only full words will be matched. e.g. `cs2103t` will not match `cs2103`.
 
 * Labels matching at least one keyword will be returned. e.g. `cs2103t cs2101` will match
-  `CS2103T Software Engineering` and `CS2101 Effective Communication for Computing Professionals`.
+  `cs2103t` and `cs2101`.
 
 Example:
 

@@ -12,6 +12,8 @@ public class UndoCommand extends Command {
 
     public static final String COMMAND_WORD = "undo";
 
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD;
+
     public static final String MESSAGE_SUCCESS = "Command has be undone!";
 
     public static final String MESSAGE_UNDO_INVALID = "Unable to undo command";

@@ -10,7 +10,7 @@ title: Developer Guide
 ## **Acknowledgements**
 
 * {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
-
+* `ControlsFx` API for the autocomplete feature. ([Source](https://github.com/controlsfx/controlsfx))
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
@@ -757,7 +757,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 4. A user with _above average typing speed_ for _regular text_ should be able to accomplish
 most of the tasks faster using commands than using the mouse.
 5. Contact/task/tag names should contain alphanumeric characters and/or spaces and/or symbols.
-6. Contact/task/tag names should be case-insensitive.
 7. Contact phone numbers should contain numbers only.
 8. Should be usable by first-time user without referencing external guides.
 9. GUI should be usable by colour blind users.
@@ -766,7 +765,8 @@ most of the tasks faster using commands than using the mouse.
 12. Should display a visual prompt when YellowBook is processing an user input.
 13. The project is expected to deliver a _new iteration_ every 2 weeks.
 14. Should work without an active internet connection.
-15. Data files from YellowBook v1.1 onwards should be compatible with the future versions.
+15. Data files from YellowBook v1.4 onwards should be compatible with the future versions.
+16. Any dates or times be time-zone insensitive.
 
 *{More to be added}*
 

@@ -14,11 +14,13 @@ public class ReminderCommand extends Command {
 
     public static final String COMMAND_WORD = "remindT";
 
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD + " " + "12-09-2022";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows tasks with deadlines up to and including the "
             + "date provided. "
             + "Parameters: DEADLINE (must be in dd-mm-yyyy format)\n"
-            + "Example: " + COMMAND_WORD + " "
-            + "12-09-2022";
+            + "Example: "
+            + MESSAGE_EXAMPLE;
 
     public static final String REMINDER_SUCCESS = "Here are your upcoming deadlines.";
 

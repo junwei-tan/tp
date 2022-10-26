@@ -14,6 +14,8 @@ public class ListContactCommand extends Command {
 
     public static final String COMMAND_WORD = "listC";
 
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD;
+
     public static final String MESSAGE_SUCCESS = "Listed all persons";
 
 

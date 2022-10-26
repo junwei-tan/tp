@@ -13,8 +13,9 @@ public class SortByDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "sortD";
 
-    public static final String MESSAGE_SUCCESS = "Sorted all tasks by deadline";
+    public static final String MESSAGE_EXAMPLE = COMMAND_WORD;
 
+    public static final String MESSAGE_SUCCESS = "Sorted all tasks by deadline";
 
     @Override
     public CommandResult execute(Model model) {
