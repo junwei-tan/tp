@@ -1,14 +1,9 @@
 package seedu.address.logic.commands;
 
-import seedu.address.commons.core.Commands;
-import seedu.address.logic.commands.contact.AddContactCommand;
-import seedu.address.logic.commands.contact.DeleteContactCommand;
-import seedu.address.logic.commands.contact.EditContactCommand;
-import seedu.address.logic.commands.contact.FindContactCommand;
-import seedu.address.logic.commands.contact.ListContactCommand;
-import seedu.address.model.Model;
-
 import java.util.stream.Collectors;
+
+import seedu.address.commons.core.Commands;
+import seedu.address.model.Model;
 
 /**
  * Format full help instructions for every command for display.

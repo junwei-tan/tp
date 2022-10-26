@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.util.List;
+
 import org.controlsfx.control.textfield.TextFields;
 
 import javafx.collections.ObservableList;
@@ -10,8 +12,6 @@ import seedu.address.commons.core.Commands;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-
-import java.util.List;
 
 /**
  * The UI component that is responsible for receiving user command inputs.

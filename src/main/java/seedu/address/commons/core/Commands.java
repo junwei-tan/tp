@@ -16,8 +16,18 @@ import seedu.address.logic.commands.contact.ListContactCommand;
 import seedu.address.logic.commands.tag.AddTagCommand;
 import seedu.address.logic.commands.tag.DeleteTagCommand;
 import seedu.address.logic.commands.tag.ListTagCommand;
-import seedu.address.logic.commands.task.*;
-
+import seedu.address.logic.commands.task.AddTaskCommand;
+import seedu.address.logic.commands.task.DeleteTaskCommand;
+import seedu.address.logic.commands.task.EditTaskCommand;
+import seedu.address.logic.commands.task.FilterTaskCommand;
+import seedu.address.logic.commands.task.FindTaskCommand;
+import seedu.address.logic.commands.task.ListTaskCommand;
+import seedu.address.logic.commands.task.MarkTaskCommand;
+import seedu.address.logic.commands.task.ReminderCommand;
+import seedu.address.logic.commands.task.SortByDeadlineCommand;
+import seedu.address.logic.commands.task.SortByIdCommand;
+import seedu.address.logic.commands.task.TaskProgressCommand;
+import seedu.address.logic.commands.task.UnmarkTaskCommand;
 
 /**
  * Class containing summary of YellowBook's commands.
