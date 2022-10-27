@@ -21,7 +21,7 @@ public class AddTaskCommand extends Command {
             + PREFIX_TASK_DESCRIPTION + "buy milk "
             + PREFIX_TASK_DEADLINE + "12-09-2022";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to the TaskList. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to the TaskList. \n"
             + "Parameters: "
             + PREFIX_TASK_DESCRIPTION + "DESCRIPTION "
             + PREFIX_TASK_DEADLINE + "DEADLINE "

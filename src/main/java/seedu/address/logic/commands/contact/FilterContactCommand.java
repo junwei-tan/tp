@@ -10,7 +10,7 @@ import seedu.address.model.person.PersonContainsKeywordsPredicate;
 
 /**
  * Finds and lists all persons whose tags contain any of the argument keywords.
- * Keyword matching is case-insensitive.
+ * Keyword matching is case-sensitive.
  */
 public class FilterContactCommand extends Command {
 
@@ -18,11 +18,10 @@ public class FilterContactCommand extends Command {
 
     public static final String MESSAGE_EXAMPLE = COMMAND_WORD + " CS2103T CS2101 GEA1000";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose tag(s) matches any of "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose tag(s) contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: "
-            + MESSAGE_EXAMPLE;
+            + "Example: " + MESSAGE_EXAMPLE;
 
     private final PersonContainsKeywordsPredicate predicate;
 

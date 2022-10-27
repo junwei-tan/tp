@@ -1,6 +1,7 @@
 package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DEADLINE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DESCRIPTION;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TASKS;
 
@@ -28,13 +29,15 @@ public class EditTaskCommand extends Command {
     public static final String COMMAND_WORD = "editT";
 
     public static final String MESSAGE_EXAMPLE = COMMAND_WORD + " 1 "
-            + PREFIX_TASK_DESCRIPTION + "go sleep";
+            + PREFIX_TASK_DESCRIPTION + "go sleep"
+            + PREFIX_TASK_DEADLINE + "10-10-2022";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the task identified "
             + "by the index number used in the displayed task list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_TASK_DESCRIPTION + "DESCRIPTION] "
+            + "[" + PREFIX_TASK_DEADLINE + "DEADLINE]\n"
             + "Example: "
             + MESSAGE_EXAMPLE;
 
