@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.hash;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -7,8 +9,11 @@ import java.util.Set;
 
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.ArchivalStatus;
+import seedu.address.model.task.CompletionStatus;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Description;
+import seedu.address.model.task.Id;
 
 /**
  * Stores the details to edit the task with. Each non-empty field value will replace the
@@ -17,8 +22,10 @@ import seedu.address.model.task.Description;
 public class EditTaskDescriptor {
     private Description description;
     private Deadline deadline;
-    private boolean isDone;
+    private CompletionStatus completionStatus;
+    private ArchivalStatus archivalStatus;
     private Set<Tag> tags;
+    private Id id;
 
     public EditTaskDescriptor() {}
 
@@ -29,7 +36,8 @@ public class EditTaskDescriptor {
     public EditTaskDescriptor(EditTaskDescriptor toCopy) {
         setDescription(toCopy.description);
         setDeadline(toCopy.deadline);
-        setIsDone(toCopy.isDone);
+        setCompletionStatus(toCopy.completionStatus);
+        setArchivalStatus(toCopy.archivalStatus);
         setTags(toCopy.tags);
     }
 
@@ -37,7 +45,7 @@ public class EditTaskDescriptor {
      * Returns true if at least one field is edited.
      */
     public boolean isAnyFieldEdited() {
-        return CollectionUtil.isAnyNonNull(description, isDone, tags);
+        return CollectionUtil.isAnyNonNull(description, deadline, completionStatus, archivalStatus, tags);
     }
 
     public void setDescription(Description description) {
@@ -56,12 +64,28 @@ public class EditTaskDescriptor {
         return Optional.ofNullable(deadline);
     }
 
-    public void setIsDone(boolean isDone) {
-        this.isDone = isDone;
+    public void setCompletionStatus(CompletionStatus completionStatus) {
+        this.completionStatus = completionStatus;
     }
 
-    public Optional<Boolean> getIsDone() {
-        return Optional.ofNullable(isDone);
+    public Optional<CompletionStatus> getCompletionStatus() {
+        return Optional.ofNullable(completionStatus);
+    }
+
+    public void setArchivalStatus(ArchivalStatus archivalStatus) {
+        this.archivalStatus = archivalStatus;
+    }
+
+    public Optional<ArchivalStatus> getArchivalStatus() {
+        return Optional.ofNullable(archivalStatus);
+    }
+
+    public void setId(Id id) {
+        this.id = id;
+    }
+
+    public Optional<Id> getId() {
+        return Optional.ofNullable(id);
     }
 
     /**
@@ -82,6 +106,11 @@ public class EditTaskDescriptor {
     }
 
     @Override
+    public int hashCode() {
+        return hash(description, deadline, completionStatus, archivalStatus, tags);
+    }
+
+    @Override
     public boolean equals(Object other) {
         // short circuit if same object
         if (other == this) {
@@ -98,7 +127,8 @@ public class EditTaskDescriptor {
 
         return getDescription().equals(e.getDescription())
                 && getDeadline().equals(e.getDeadline())
-                && getIsDone().equals(e.getIsDone())
+                && getCompletionStatus().equals(e.getCompletionStatus())
+                && getArchivalStatus().equals(e.getArchivalStatus())
                 && getTags().equals(e.getTags());
     }
 }

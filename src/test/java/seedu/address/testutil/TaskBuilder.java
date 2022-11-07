@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.ArchivalStatus;
+import seedu.address.model.task.CompletionStatus;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Description;
+import seedu.address.model.task.Id;
 import seedu.address.model.task.Task;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -15,12 +18,16 @@ import seedu.address.model.util.SampleDataUtil;
 public class TaskBuilder {
     public static final String DEFAULT_DESCRIPTION = "read book";
     public static final String DEFAULT_DEADLINE = "12-09-2022";
-    public static final Boolean DEFAULT_STATUS = false;
+    public static final Boolean DEFAULT_COMPLETION_STATUS = false;
+    public static final Boolean DEFAULT_ARCHIVAL_STATUS = false;
+    public static final int DEFAULT_ID = 1;
 
     private Description description;
     private Deadline deadline;
-    private Boolean isDone;
+    private CompletionStatus completionStatus;
+    private ArchivalStatus archivalStatus;
     private Set<Tag> tags;
+    private Id id;
 
     /**
      * Creates a {@code TaskBuilder} with the default details.
@@ -28,8 +35,10 @@ public class TaskBuilder {
     public TaskBuilder() {
         description = new Description(DEFAULT_DESCRIPTION);
         deadline = new Deadline(DEFAULT_DEADLINE);
-        isDone = DEFAULT_STATUS;
+        completionStatus = new CompletionStatus(DEFAULT_COMPLETION_STATUS);
+        archivalStatus = new ArchivalStatus(DEFAULT_ARCHIVAL_STATUS);
         tags = new HashSet<>();
+        id = new Id(DEFAULT_ID);
     }
 
     /**
@@ -38,8 +47,11 @@ public class TaskBuilder {
     public TaskBuilder(Task taskToCopy) {
         description = taskToCopy.getDescription();
         deadline = taskToCopy.getDeadline();
-        isDone = taskToCopy.getStatus();
+        completionStatus = taskToCopy.getCompletionStatus();
+        archivalStatus = taskToCopy.getArchivalStatus();
+
         tags = new HashSet<>(taskToCopy.getTags());
+        id = taskToCopy.getId();
     }
 
     /**
@@ -69,12 +81,28 @@ public class TaskBuilder {
     /**
      * Sets the completion status of the {@code Task} that we are building.
      */
-    public TaskBuilder withStatus(Boolean isDone) {
-        this.isDone = isDone;
+    public TaskBuilder withCompletionStatus(Boolean isDone) {
+        this.completionStatus = new CompletionStatus(isDone);
+        return this;
+    }
+
+    /**
+     * Sets the archival status of the {@code Task} that we are building.
+     */
+    public TaskBuilder withArchivalStatus(Boolean isArchived) {
+        this.archivalStatus = new ArchivalStatus(isArchived);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Id} of the {@code Task} that we are building.
+     */
+    public TaskBuilder withId(int id) {
+        this.id = new Id(id);
         return this;
     }
 
     public Task build() {
-        return new Task(description, deadline, isDone, tags);
+        return new Task(description, deadline, completionStatus, archivalStatus, tags, id);
     }
 }

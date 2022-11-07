@@ -1,11 +1,19 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's remark in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidRemark(String)}
  */
 public class Remark {
+
+    public static final String MESSAGE_CONSTRAINTS =
+            "Remarks should only contain alphanumeric characters and spaces.";
+
+    public static final String VALIDATION_REGEX = "^[A-Za-z0-9 ]*$";
+
     public final String value;
 
     /**
@@ -15,7 +23,23 @@ public class Remark {
      */
     public Remark(String remark) {
         requireNonNull(remark);
+        checkArgument(isValidRemark(remark), MESSAGE_CONSTRAINTS);
         value = remark;
+    }
+
+    /**
+     * Returns true if a given string is a valid remark.
+     */
+    public static boolean isValidRemark(String test) {
+        return test.matches(VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns true if a given string is a valid remark and is not empty.
+     */
+    public static boolean isValidRemarkNonEmpty(String test) {
+        assert test != null : "Remark to be tested should not be null";
+        return test.matches(VALIDATION_REGEX) && !test.trim().isEmpty();
     }
 
     @Override

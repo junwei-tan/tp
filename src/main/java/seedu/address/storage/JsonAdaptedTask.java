@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.ArchivalStatus;
+import seedu.address.model.task.CompletionStatus;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Description;
 import seedu.address.model.task.Id;
@@ -25,6 +28,7 @@ public class JsonAdaptedTask {
     private final String description;
     private final String deadline;
     private final Boolean isDone;
+    private final Boolean isArchived;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
     private final String id;
 
@@ -33,11 +37,12 @@ public class JsonAdaptedTask {
      */
     @JsonCreator
     public JsonAdaptedTask(@JsonProperty("description") String description, @JsonProperty("deadline") String deadline,
-                            @JsonProperty("isDone") Boolean isDone,
+                            @JsonProperty("isDone") Boolean isDone, @JsonProperty("isArchived") Boolean isArchived,
                            @JsonProperty("tagged") List<JsonAdaptedTag> tagged, @JsonProperty("id") String id) {
         this.description = description;
         this.deadline = deadline;
         this.isDone = isDone;
+        this.isArchived = isArchived;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -50,7 +55,9 @@ public class JsonAdaptedTask {
     public JsonAdaptedTask(Task source) {
         description = source.getDescription().taskDescription;
         deadline = source.getDeadline().value;
-        isDone = source.getStatus();
+        isDone = source.getIsCompleted();
+        isArchived = source.getIsArchived();
+
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -81,16 +88,25 @@ public class JsonAdaptedTask {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Deadline.class.getSimpleName()));
         }
-        if (!Deadline.isValidDeadline(deadline)) {
+        Deadline parsedDeadline;
+        try {
+            parsedDeadline = new Deadline(deadline);
+        } catch (DateTimeParseException e) {
             throw new IllegalValueException(Deadline.MESSAGE_CONSTRAINTS);
         }
-        final Deadline modelDeadline = new Deadline(deadline);
+        final Deadline modelDeadline = parsedDeadline;
 
         if (isDone == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Boolean.class.getSimpleName()));
         }
-        final Boolean modelIsDone = isDone;
+        final CompletionStatus modelIsDone = new CompletionStatus(isDone);
+
+        if (isArchived == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Boolean.class.getSimpleName()));
+        }
+        final ArchivalStatus modelIsArchived = new ArchivalStatus(isArchived);
 
         if (id == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -99,6 +115,6 @@ public class JsonAdaptedTask {
         final Id modelId = new Id(Integer.parseInt(id));
 
         final Set<Tag> modelTags = new HashSet<>(taskTags);
-        return new Task(modelDescription, modelDeadline, modelIsDone, modelTags, modelId);
+        return new Task(modelDescription, modelDeadline, modelIsDone, modelIsArchived, modelTags, modelId);
     }
 }

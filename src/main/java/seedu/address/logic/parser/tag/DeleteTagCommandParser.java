@@ -2,12 +2,14 @@ package seedu.address.logic.parser.tag;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.tag.DeleteTagCommand.MESSAGE_MISSING_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -28,6 +30,9 @@ import seedu.address.model.tag.Tag;
  */
 public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
 
+    public static final String MESSAGE_TOO_MANY_CONTACTS_OR_TASKS = "You can only delete a label from a maximum of "
+        + "one contact and one task at a time.";
+
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
      * and returns an EditCommand object for execution.
@@ -35,14 +40,34 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
      */
     public DeleteTagCommand parse(String args) throws ParseException {
         requireNonNull(args);
+
+        String trimmedArgs = args.trim();
+
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteTagCommand.MESSAGE_USAGE));
+        }
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_CONTACT, PREFIX_TASK, PREFIX_TAG);
+
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteTagCommand.MESSAGE_USAGE));
+        }
 
         Index contactIndex;
         Index taskIndex;
 
         boolean deleteTagFromContact = argMultimap.getValue(PREFIX_CONTACT).isPresent();
         boolean deleteTagFromTask = argMultimap.getValue(PREFIX_TASK).isPresent();
+
+        if (!deleteTagFromContact && !deleteTagFromTask) {
+            throw new ParseException(MESSAGE_MISSING_INDEX);
+        }
+
+        if (argMultimap.getAllValues(PREFIX_CONTACT).size() > 1 || argMultimap.getAllValues(PREFIX_TASK).size() > 1) {
+            throw new ParseException(MESSAGE_TOO_MANY_CONTACTS_OR_TASKS);
+        }
 
         try {
             contactIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_CONTACT).orElse("1"));
@@ -61,8 +86,10 @@ public class DeleteTagCommandParser implements Parser<DeleteTagCommand> {
             throw new ParseException(DeleteTagCommand.MESSAGE_TAG_NOT_DELETED);
         }
 
+        List<String> tagStrings = argMultimap.getAllValues(PREFIX_TAG);
+
         return new DeleteTagCommand(contactIndex, taskIndex, editPersonDescriptor, editTaskDescriptor,
-            deleteTagFromContact, deleteTagFromTask);
+            deleteTagFromContact, deleteTagFromTask, tagStrings);
     }
 
     /**

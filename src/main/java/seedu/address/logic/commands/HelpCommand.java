@@ -1,14 +1,9 @@
 package seedu.address.logic.commands;
 
-import seedu.address.logic.commands.contact.AddContactCommand;
-import seedu.address.logic.commands.contact.DeleteContactCommand;
-import seedu.address.logic.commands.contact.EditContactCommand;
-import seedu.address.logic.commands.contact.FindContactCommand;
-import seedu.address.logic.commands.contact.ListContactCommand;
 import seedu.address.model.Model;
 
 /**
- * Format full help instructions for every command for display.
+ * Format full help instructions for all add commands for display.
  */
 public class HelpCommand extends Command {
 
@@ -20,21 +15,16 @@ public class HelpCommand extends Command {
     private static final String USER_GUIDE_URL =
             "https://ay2223s1-cs2103t-f11-4.github.io/tp/UserGuide.html#quick-start";
 
-    public static final String SHOWING_HELP_MESSAGE = "Sample usage:\n\t"
-            + AddContactCommand.MESSAGE_USAGE + "\n\t"
-            + DeleteContactCommand.MESSAGE_USAGE + "\n\t"
-            + EditContactCommand.MESSAGE_USAGE + "\n\t"
-            + FindContactCommand.MESSAGE_USAGE + "\n\t"
-            + HelpCommand.MESSAGE_USAGE + "\n\n"
-            + "Other Commands:\n\t"
-            + ClearCommand.COMMAND_WORD + "\n\t"
-            + ListContactCommand.COMMAND_WORD + "\n\t"
-            + ExitCommand.COMMAND_WORD + "\n\n"
-            + "Further help:\n"
-            + USER_GUIDE_URL;
+    private static final String GITHUB_RELEASE_URL =
+            "https://github.com/AY2223S1-CS2103T-F11-4/tp/releases";
+
+    public static final String SHOWING_HELP_MESSAGE = "For detailed guide: "
+            + USER_GUIDE_URL + "\n"
+            + "For latest YellowBook version: "
+            + GITHUB_RELEASE_URL;
 
     @Override
     public CommandResult execute(Model model) {
-        return new CommandResult(SHOWING_HELP_MESSAGE, false, false);
+        return new CommandResult(SHOWING_HELP_MESSAGE, true, false);
     }
 }

@@ -1,22 +1,18 @@
 package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TASKS;
+import static seedu.address.model.task.Task.PREDICATE_SHOW_NON_ARCHIVED_TASKS;
 
 import java.util.List;
-import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.CommandUtil;
 import seedu.address.logic.commands.EditTaskDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.task.Deadline;
-import seedu.address.model.task.Description;
-import seedu.address.model.task.Id;
 import seedu.address.model.task.Task;
 
 /**
@@ -33,6 +29,7 @@ public class UnmarkTaskCommand extends Command {
 
     public static final String MESSAGE_UNMARK_TASK_SUCCESS = "Unmarked Task: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the task list.";
+    public static final String MESSAGE_ALREADY_UNMARKED = "This task is already marked as incomplete.";
 
     private final Index index;
     private final EditTaskDescriptor editTaskDescriptor;
@@ -60,32 +57,20 @@ public class UnmarkTaskCommand extends Command {
         }
 
         Task taskToUnmark = lastShownList.get(index.getZeroBased());
-        Task unmarkedTask = createEditedTask(taskToUnmark, editTaskDescriptor);
+        Task unmarkedTask = CommandUtil.createEditedTask(taskToUnmark, editTaskDescriptor);
 
         if (!taskToUnmark.isSameTask(unmarkedTask) && model.hasTask(unmarkedTask)) {
             throw new CommandException(MESSAGE_DUPLICATE_TASK);
         }
 
+        if (taskToUnmark.equals(unmarkedTask)) {
+            throw new CommandException(MESSAGE_ALREADY_UNMARKED);
+        }
+
         model.setTask(taskToUnmark, unmarkedTask);
-        model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        model.updateFilteredTaskList(PREDICATE_SHOW_NON_ARCHIVED_TASKS);
+        model.commitAddressBook();
         return new CommandResult(String.format(MESSAGE_UNMARK_TASK_SUCCESS, unmarkedTask));
-    }
-
-    /**
-     * Creates and returns a {@code Task} with the details of {@code taskToEdit}
-     * edited with {@code editTaskDescriptor}.
-     */
-    private static Task createEditedTask(Task taskToEdit, EditTaskDescriptor editTaskDescriptor) {
-        assert taskToEdit != null;
-
-        Description updatedDescription = editTaskDescriptor.getDescription().orElse(taskToEdit.getDescription());
-        Deadline updatedDeadline = editTaskDescriptor.getDeadline().orElse(taskToEdit.getDeadline());
-        Boolean updatedIsDone = editTaskDescriptor.getIsDone().orElse(taskToEdit.getStatus());
-        Set<Tag> updatedTags = editTaskDescriptor.getTags().orElse(taskToEdit.getTags());
-        // Id cannot be updated
-        Id id = taskToEdit.getId();
-
-        return new Task(updatedDescription, updatedDeadline, updatedIsDone, updatedTags, id);
     }
 
     @Override

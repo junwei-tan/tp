@@ -17,17 +17,16 @@ public class AddTaskCommand extends Command {
 
     public static final String COMMAND_WORD = "addT";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to the TaskList. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to the TaskList.\n"
             + "Parameters: "
             + PREFIX_TASK_DESCRIPTION + "DESCRIPTION "
-            + PREFIX_TASK_DEADLINE + "DEADLINE "
+            + PREFIX_TASK_DEADLINE + "DEADLINE\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_TASK_DESCRIPTION + "buy milk "
             + PREFIX_TASK_DEADLINE + "12-09-2022";
 
     public static final String MESSAGE_ADD_TASK_SUCCESS = "New task added: %1$s";
-    // public static final String MESSAGE_MISSING_DESCRIPTION = "A task must have a description";
-    // To be implemented later.
+    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
 
     private final Task newTask;
 
@@ -43,7 +42,12 @@ public class AddTaskCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        if (model.hasTask(newTask)) {
+            throw new CommandException(MESSAGE_DUPLICATE_TASK);
+        }
+
         model.addTask(newTask);
+        model.commitAddressBook();
         return new CommandResult(String.format(MESSAGE_ADD_TASK_SUCCESS, newTask));
     }
 

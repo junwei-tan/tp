@@ -68,6 +68,8 @@ public class UniqueTagList implements Iterable<Tag> {
         internalList.set(index, editedTag);
     }
 
+
+
     /**
      * Removes the equivalent tag from the list.
      * The tag must exist in the list.
@@ -133,6 +135,43 @@ public class UniqueTagList implements Iterable<Tag> {
             }
         }
         return true;
+    }
+
+    /**
+     * Takes a given tag and looks for the matching tag in the list, then adds 1 to its count.
+     * Since tags are unique, there should only be 1 match.
+     * @param toAdd chosen tag
+     */
+    public void addTagCount(Tag toAdd) {
+        for (int i = 0; i < internalList.size(); i++) {
+            Tag currTag = internalList.get(i);
+            if (toAdd.equals(currTag)) {
+                Tag updatedTag = new Tag(currTag.getName(), currTag.getCount());
+                updatedTag.addToCount();
+                internalList.set(i, updatedTag);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Takes a given tag and looks for the matching tag in the list, then subtracts 1 from its count.
+     * Since tags are unique, there should only be 1 match.
+     * @param toDelete chosen tag
+     */
+    public void decreaseTagCount(Tag toDelete) {
+        for (int i = 0; i < internalList.size(); i++) {
+            Tag currTag = internalList.get(i);
+            if (toDelete.equals(currTag)) {
+                Tag updatedTag = new Tag(currTag.getName(), currTag.getCount());
+                updatedTag.removeFromCount();
+                internalList.set(i, updatedTag);
+                if (updatedTag.getCount() <= 0) {
+                    internalList.remove(i);
+                }
+                break;
+            }
+        }
     }
 }
 

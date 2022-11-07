@@ -128,6 +128,32 @@ public class AddContactCommandTest {
         }
 
         @Override
+        public void commitAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void undoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+
+        @Override
+        public void redoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canUndoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canRedoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean hasPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
@@ -173,12 +199,42 @@ public class AddContactCommandTest {
         }
 
         @Override
+        public void addTag(Tag tag) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteTag(Tag target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasTag(Tag tag) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setTag(Tag target, Tag editedTag) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredTagList(Predicate<Tag> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Task> getFilteredTaskList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void updateFilteredTaskList(Predicate<Task> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public double getPercentageCompletion(Predicate<Task> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -193,9 +249,20 @@ public class AddContactCommandTest {
         }
 
         @Override
-        public ObservableList<Tag> getTagList() {
+        public ObservableList<Tag> getFilteredTagList() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void addTagCount(Tag toAdd) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void decreaseTagCount(Tag toDelete) {
+            throw new AssertionError("This method should not be called.");
+        }
+
     }
 
     /**
@@ -217,7 +284,7 @@ public class AddContactCommandTest {
     }
 
     /**
-     * A Model stub that always accept the person being added.
+     * A Model stub that always accepts the person being added.
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
@@ -233,6 +300,9 @@ public class AddContactCommandTest {
             requireNonNull(person);
             personsAdded.add(person);
         }
+
+        @Override
+        public void commitAddressBook() {}
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {

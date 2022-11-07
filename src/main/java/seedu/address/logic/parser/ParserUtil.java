@@ -2,10 +2,13 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -17,6 +20,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.CompletionStatus;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Description;
 
@@ -218,11 +222,38 @@ public class ParserUtil {
     /**
      * Parses a {@code String remark} into a {@code Remark}.
      * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code remark} is invalid.
      */
-    public static Remark parseRemark(String remark) {
+    public static Remark parseRemark(String remark) throws ParseException {
         requireNonNull(remark);
         String trimmedRemark = remark.trim();
+        if (!Remark.isValidRemark(trimmedRemark)) {
+            throw new ParseException(Remark.MESSAGE_CONSTRAINTS);
+        }
         return new Remark(trimmedRemark);
+    }
+
+    /**
+     * Parses a string of {@code String remarks} into a list of {@code String remarks}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param remarks The remarks to be parsed.
+     * @return A list of remarks.
+     * @throws ParseException if any {@code remark} is invalid or is empty.
+     */
+    public static List<Remark> parseRemarks(String remarks) throws ParseException {
+        requireNonNull(remarks);
+        String trimmedRemarks = remarks.trim();
+        String[] remarkArr = trimmedRemarks.split(" ");
+        ArrayList<Remark> remarkList = new ArrayList<>();
+        for (String remark : remarkArr) {
+            if (!Remark.isValidRemarkNonEmpty(remark)) {
+                throw new ParseException(Remark.MESSAGE_CONSTRAINTS);
+            }
+            remarkList.add(new Remark(remark));
+        }
+        return remarkList;
     }
 
     /**
@@ -272,10 +303,18 @@ public class ParserUtil {
     public static Deadline parseDeadline(String deadline) throws ParseException {
         requireNonNull(deadline);
         String trimmedDeadline = deadline.trim();
-        if (!Deadline.isValidDeadline(trimmedDeadline)) {
-            throw new ParseException(Deadline.MESSAGE_CONSTRAINTS);
+
+        Deadline parsedDeadline;
+
+        try {
+            parsedDeadline = new Deadline(trimmedDeadline);
+        } catch (DateTimeParseException e) {
+            throw new ParseException(Deadline.INVALID_DATE);
         }
-        return new Deadline(deadline);
+
+        requireNonNull(parsedDeadline);
+
+        return parsedDeadline;
     }
 
     /**
@@ -291,12 +330,55 @@ public class ParserUtil {
         String trimmedDeadlines = deadlines.trim();
         String[] deadlineArr = trimmedDeadlines.split(" ");
         ArrayList<Deadline> descriptionList = new ArrayList<>();
+
         for (String deadline : deadlineArr) {
-            if (!Deadline.isValidDeadline(deadline)) {
-                throw new ParseException(Deadline.MESSAGE_CONSTRAINTS);
+            Deadline parsedDeadline;
+
+            try {
+                parsedDeadline = new Deadline(deadline);
+            } catch (DateTimeParseException e) {
+                throw new ParseException(Deadline.INVALID_DATE);
             }
-            descriptionList.add(new Deadline(deadline));
+            descriptionList.add(parsedDeadline);
         }
         return descriptionList;
+    }
+
+    /**
+     * Parses a string of {@code String completionStatuses} into a list of {@code CompletionStatus completionStatuses}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param completionStatuses The completion statuses to be parsed.
+     * @return A list of completion statuses.
+     * @throws ParseException if any {@code completionStatus} is invalid.
+     */
+    public static List<CompletionStatus> parseCompletionStatuses(String completionStatuses) throws ParseException {
+        requireNonNull(completionStatuses);
+        String trimmedCompletionStatuses = completionStatuses.trim();
+        String[] completionStatusArr = trimmedCompletionStatuses.split(" ");
+        ArrayList<CompletionStatus> completionStatusList = new ArrayList<>();
+        for (String completionStatus : completionStatusArr) {
+            if (!CompletionStatus.isValidCompletionStatus(completionStatus)) {
+                throw new ParseException(CompletionStatus.MESSAGE_CONSTRAINTS);
+            }
+            completionStatusList.add(new CompletionStatus(
+                    Boolean.parseBoolean(completionStatus.toLowerCase())));
+        }
+        return completionStatusList;
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
+     * If {@code tags} contain only one element which is an empty string, it will be parsed into a
+     * {@code Set<Tag>} containing zero tags.
+     */
+    public static Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws ParseException {
+        assert tags != null;
+
+        if (tags.isEmpty()) {
+            return Optional.empty();
+        }
+        Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
+        return Optional.of(ParserUtil.parseTags(tagSet));
     }
 }

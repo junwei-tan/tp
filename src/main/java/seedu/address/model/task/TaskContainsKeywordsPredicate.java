@@ -1,5 +1,7 @@
 package seedu.address.model.task;
 
+import static java.util.Objects.hash;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +17,7 @@ import seedu.address.model.tag.Tag;
 public class TaskContainsKeywordsPredicate implements Predicate<Task> {
     private final List<Description> descriptionKeywords;
     private final List<Deadline> deadlineKeywords;
+    private final List<CompletionStatus> completionStatusKeywords;
     private final Set<Tag> tags;
 
     /**
@@ -22,11 +25,14 @@ public class TaskContainsKeywordsPredicate implements Predicate<Task> {
      *
      * @param descriptionKeywords A list containing keywords for {@code Description}.
      * @param deadlineKeywords A list containing keywords for {@code Deadline}.
+     * @param completionStatusKeywords A list containing keywords for {@code Completion Status}.
      */
     public TaskContainsKeywordsPredicate(List<Description> descriptionKeywords,
-                                         List<Deadline> deadlineKeywords) {
+                                         List<Deadline> deadlineKeywords,
+                                         List<CompletionStatus> completionStatusKeywords) {
         this.descriptionKeywords = descriptionKeywords;
         this.deadlineKeywords = deadlineKeywords;
+        this.completionStatusKeywords = completionStatusKeywords;
         tags = new HashSet<>();
     }
 
@@ -38,6 +44,7 @@ public class TaskContainsKeywordsPredicate implements Predicate<Task> {
     public TaskContainsKeywordsPredicate(Set<Tag> tags) {
         this.descriptionKeywords = new ArrayList<>();
         this.deadlineKeywords = new ArrayList<>();
+        this.completionStatusKeywords = new ArrayList<>();
         this.tags = tags;
     }
 
@@ -48,10 +55,15 @@ public class TaskContainsKeywordsPredicate implements Predicate<Task> {
      * @param  task Task that will be checked for matching keywords.
      * @return boolean indicating if task contains supplied keywords.
      */
-    // TODO Implement for tags
     @Override
     public boolean test(Task task) {
-        return task.containsKeywordsCaseInsensitive(descriptionKeywords, deadlineKeywords, tags);
+        return task.containsKeywordsCaseInsensitive(descriptionKeywords,
+                deadlineKeywords, completionStatusKeywords, tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return hash(descriptionKeywords, deadlineKeywords, completionStatusKeywords, tags);
     }
 
     @Override
@@ -68,6 +80,7 @@ public class TaskContainsKeywordsPredicate implements Predicate<Task> {
 
         return descriptionKeywords.equals(castedOther.descriptionKeywords)
                 && deadlineKeywords.equals(castedOther.deadlineKeywords)
+                && completionStatusKeywords.equals(castedOther.completionStatusKeywords)
                 && tags.equals(castedOther.tags);
     }
 }

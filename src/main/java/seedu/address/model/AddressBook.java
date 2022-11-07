@@ -65,6 +65,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the contents of the tag list with {@code tags}.
+     * {@code tags} must not contain duplicate tags.
+     */
+    public void setTags(List<Tag> tags) {
+        this.tags.setTags(tags);
+    }
+
+    /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
     public void resetData(ReadOnlyAddressBook newData) {
@@ -72,6 +80,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         setPersons(newData.getPersonList());
         setTasks(newData.getTaskList());
+        setTags(newData.getTagList());
 
         if (newData.isSortByDeadline()) {
             sortByDeadline();
@@ -122,7 +131,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public String toString() {
         return persons.asUnmodifiableObservableList().size() + " persons, "
-                + tasks.asUnmodifiableObservableList().size() + " tasks";
+                + tasks.asUnmodifiableObservableList().size() + " tasks, "
+                + tags.asUnmodifiableObservableList().size() + " tags";
         // TODO: refine later
     }
 
@@ -155,7 +165,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return Objects.hash(persons, tasks, tags);
     }
 
-    //task methods
+    //// task methods
 
     @Override
     public ObservableList<Task> getTaskList() {
@@ -216,8 +226,61 @@ public class AddressBook implements ReadOnlyAddressBook {
         tasks.sortById();
     }
 
+    //// tag methods
+
+    /**
+     * Adds a tag to the address book.
+     * The tag must not already exist in the address book.
+     */
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+
+    /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeTag(Tag key) {
+        tags.remove(key);
+    }
+
+    /**
+     * Returns true if a tag with the same description as {@code tag} exists in the address book.
+     */
+    public boolean hasTag(Tag tag) {
+        requireNonNull(tag);
+        return tags.contains(tag);
+    }
+
+    /**
+     * Replaces the given tag {@code target} in the list with {@code editedTag}.
+     * {@code target} must exist in the address book.
+     * The tag description of {@code editedTag} must not be the same as another existing tag in the address book.
+     */
+    public void setTag(Tag target, Tag editedTag) {
+        requireNonNull(editedTag);
+
+        tags.setTag(target, editedTag);
+    }
+
     @Override
     public ObservableList<Tag> getTagList() {
         return tags.asUnmodifiableObservableList();
+    }
+
+    public void addTagCount(Tag tag) {
+        tags.addTagCount(tag);
+    }
+
+    public void decreaseTagCount(Tag toDelete) {
+        tags.decreaseTagCount(toDelete);
+    }
+
+    public ReadOnlyAddressBook getCopyOfAddressBook() {
+        AddressBook copy = new AddressBook();
+        copy.setPersons(this.getPersonList());
+        copy.setTasks(this.getTaskList());
+        copy.setTags(this.getTagList());
+        return copy;
     }
 }

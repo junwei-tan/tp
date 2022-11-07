@@ -1,6 +1,7 @@
 package seedu.address.logic.parser.task;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_COMPLETION_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DEADLINE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK_DESCRIPTION;
 
@@ -15,6 +16,7 @@ import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.task.CompletionStatus;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Description;
 import seedu.address.model.task.TaskContainsKeywordsPredicate;
@@ -34,9 +36,11 @@ public class FindTaskCommandParser implements Parser<FindTaskCommand> {
      */
     public FindTaskCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_TASK_DESCRIPTION, PREFIX_TASK_DEADLINE);
+                ArgumentTokenizer.tokenize(args, PREFIX_TASK_DESCRIPTION,
+                        PREFIX_TASK_DEADLINE, PREFIX_TASK_COMPLETION_STATUS);
 
-        if (arePrefixesEmpty(argMultimap, PREFIX_TASK_DESCRIPTION, PREFIX_TASK_DEADLINE)
+        if (arePrefixesEmpty(argMultimap, PREFIX_TASK_DESCRIPTION,
+                PREFIX_TASK_DEADLINE, PREFIX_TASK_COMPLETION_STATUS)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -45,9 +49,10 @@ public class FindTaskCommandParser implements Parser<FindTaskCommand> {
 
         List<Description> descriptions = getDescriptions(argMultimap);
         List<Deadline> deadlines = getDeadlines(argMultimap);
+        List<CompletionStatus> completionStatuses = getCompletionStatuses(argMultimap);
 
         return new FindTaskCommand(
-                new TaskContainsKeywordsPredicate(descriptions, deadlines));
+                new TaskContainsKeywordsPredicate(descriptions, deadlines, completionStatuses));
     }
 
     private List<Description> getDescriptions(ArgumentMultimap argMultimap) throws ParseException {
@@ -62,6 +67,13 @@ public class FindTaskCommandParser implements Parser<FindTaskCommand> {
             return new ArrayList<>();
         }
         return ParserUtil.parseDeadlines(argMultimap.getValue(PREFIX_TASK_DEADLINE).get());
+    }
+
+    private List<CompletionStatus> getCompletionStatuses(ArgumentMultimap argMultimap) throws ParseException {
+        if (argMultimap.getValue(PREFIX_TASK_COMPLETION_STATUS).isEmpty()) {
+            return new ArrayList<>();
+        }
+        return ParserUtil.parseCompletionStatuses(argMultimap.getValue(PREFIX_TASK_COMPLETION_STATUS).get());
     }
 
     /**

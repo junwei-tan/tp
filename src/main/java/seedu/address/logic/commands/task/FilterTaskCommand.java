@@ -10,17 +10,17 @@ import seedu.address.model.task.TaskContainsKeywordsPredicate;
 
 /**
  * Finds and lists all tasks whose tags contain any of the argument keywords.
- * Keyword matching is case-insensitive.
+ * Keyword matching is case-sensitive.
  */
 public class FilterTaskCommand extends Command {
 
     public static final String COMMAND_WORD = "filterT";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds all tasks whose description/deadline contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
+            + ": Finds all tasks whose label(s) contain any of "
+            + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " grocery shopping friends";
+            + "Example: " + COMMAND_WORD + " CS2101 CS2103T";
 
     private final TaskContainsKeywordsPredicate predicate;
 
